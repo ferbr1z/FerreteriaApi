@@ -17,7 +17,4 @@ export class PedidoDetalle {
     @Column()
     cantidad: number;
 
-    @CreateDateColumn()
-    fecha: Date;
-
 }
