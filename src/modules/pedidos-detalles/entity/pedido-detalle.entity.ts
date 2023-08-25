@@ -1,6 +1,6 @@
 import { Pedido } from "src/modules/pedidos/entity/pedido.entity";
 import { Producto } from "src/modules/productos/entity/producto.entity";
-import { Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class PedidoDetalle {
@@ -13,5 +13,8 @@ export class PedidoDetalle {
     @ManyToOne((type) => Producto, producto => producto.id)
     @JoinColumn()
     producto: Producto
+
+    @Column()
+    cantidad: number;
 
 }
