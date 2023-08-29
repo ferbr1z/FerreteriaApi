@@ -9,6 +9,12 @@ export class Producto {
   @Column()
   nombre: string;
 
+  @Column({ default: "" })
+  codigo: string;
+
+  @Column({ default: "" })
+  descripcion: string;
+
   @Column()
   precio: number;
 
