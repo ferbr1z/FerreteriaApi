@@ -1,12 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Producto } from "src/modules/productos/entity/producto.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Categoria {
-
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    nombreCategoria: string;
+    nombre: string;
 
+    @OneToMany(() => Producto, producto => producto.categoria)
+    producto: Producto[];
 }
