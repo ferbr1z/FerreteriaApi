@@ -1,5 +1,4 @@
 import { Categoria } from 'src/modules/categorias/entity/categoria.entity';
-import { PedidoDetalle } from 'src/modules/pedidos-detalles/entity/pedido-detalle.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity()
@@ -25,6 +24,5 @@ export class Producto {
 
   @Column({ default: null })
   img_url: string;
-
 
 }

@@ -1,10 +1,7 @@
 import {
-    BadRequestException,
     HttpException,
     HttpStatus,
     Injectable,
-    InternalServerErrorException,
-    NotAcceptableException,
 } from '@nestjs/common';
 import { CreateProductoDto } from 'src/DTOs/productos/create-producto.dto';
 import { UpdateProductoDto } from 'src/DTOs/productos/update-producto.dto';
@@ -30,13 +27,11 @@ export class ProductosService {
     }
 
     async findAll() {
-        const productos = await this.productosRepo.find();
+        const productos = await this.productosRepo.createQueryBuilder('producto')
+            .innerJoinAndSelect('producto.categoria', 'categoria').getMany() // Cargar categoria
 
         productos.map((producto) => {
-            const imagePath = producto.img_url;
-            const image = fs.readFileSync(imagePath);
-            const imageB64 = image.toString('base64');
-            producto.img_url = imageB64;
+            producto.img_url = this.toBase64(producto.img_url);
             return producto;
         });
 
@@ -52,6 +47,8 @@ export class ProductosService {
                     HttpStatus.NOT_FOUND,
                 );
 
+            producto.img_url = this.toBase64(producto.img_url);
+
             return producto;
         } catch (error) {
             return new HttpException(
@@ -59,6 +56,12 @@ export class ProductosService {
                 HttpStatus.INTERNAL_SERVER_ERROR,
             );
         }
+    }
+
+    toBase64(imagePath: string) {
+        const image = fs.readFileSync(imagePath);
+        const imageB64 = image.toString('base64');
+        return imageB64;
     }
 
     async update(

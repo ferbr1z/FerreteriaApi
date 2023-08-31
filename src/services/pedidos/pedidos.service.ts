@@ -49,7 +49,7 @@ export class PedidosService {
 
     }
 
-    async findAll() {
+    async findAll() : Promise<Pedido[]> {
         const pedidos = await this.pedidoRepository.createQueryBuilder('pedido')
             .innerJoinAndSelect('pedido.detalles', 'detalle') // Cargar detalles
             .innerJoinAndSelect('detalle.producto', 'producto') // Opcional: Cargar productos en detalle

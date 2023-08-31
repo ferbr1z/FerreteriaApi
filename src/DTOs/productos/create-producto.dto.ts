@@ -7,4 +7,8 @@ export class CreateProductoDto {
   @IsNotEmpty()
   @IsNumberString()
   precio: number;
+
+  @IsNotEmpty()
+  categoriaId: number;
+
 }
