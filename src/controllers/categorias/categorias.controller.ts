@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, NotFoundException, Param, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, NotFoundException, Param, Patch, Post, Delete, ValidationPipe } from '@nestjs/common';
 import { CreateCategoria } from 'src/DTOs/categorias/create-categoria.dto';
 import { Categoria } from 'src/modules/categorias/entity/categoria.entity';
 import { CategoriasService } from 'src/services/categorias/categorias.service';
@@ -26,6 +26,16 @@ export class CategoriasController {
     @Get(":id")
     findOne(@Param("id") id: string) {
         return this.categoriaService.findOne(+id);
+    }
+
+    @Patch(":id")
+    update(@Param("id") id: string, @Body() updateCategoria: CreateCategoria) {
+        return this.categoriaService.update(+id, updateCategoria);
+    }
+
+    @Delete(":id")
+    delete(@Param("id") id: string) {
+        return this.categoriaService.delete(+id);
     }
 
 }
