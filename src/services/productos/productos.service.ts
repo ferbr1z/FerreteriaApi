@@ -26,7 +26,7 @@ export class ProductosService {
         return await this.productosRepo.save(newProducto);
     }
 
-    async findAll() {
+    async findAll(): Promise<Producto[]> {
         const productos = await this.productosRepo.createQueryBuilder('producto')
             .innerJoinAndSelect('producto.categoria', 'categoria').getMany() // Cargar categoria
 
@@ -38,9 +38,14 @@ export class ProductosService {
         return productos;
     }
 
-    async findOne(id: number) {
+    async findOne(id: number): Promise<Producto | HttpException> {
         try {
-            const producto = await this.productosRepo.findOne({ where: { id } });
+            // const producto = await this.productosRepo.findOne({ where: { id } });
+
+            const producto = await this.productosRepo.createQueryBuilder('producto')
+                .innerJoinAndSelect('producto.categoria', 'categoria')
+                .where('producto.id = :id', { id }).getOne();
+
             if (!producto)
                 return new HttpException(
                     { error: 'producto no encontrado' },
@@ -58,7 +63,7 @@ export class ProductosService {
         }
     }
 
-    toBase64(imagePath: string) {
+    toBase64(imagePath: string): string {
         const image = fs.readFileSync(imagePath);
         const imageB64 = image.toString('base64');
         return imageB64;
@@ -81,7 +86,7 @@ export class ProductosService {
         }
     }
 
-    async remove(id: number) {
+    async remove(id: number): Promise<number> {
         return (await this.productosRepo.delete({ id })).affected;
     }
 }

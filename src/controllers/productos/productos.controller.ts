@@ -64,4 +64,3 @@ export class ProductosController {
         return this.productosService.remove(+id);
     }
 }
-
