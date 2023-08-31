@@ -14,9 +14,22 @@ export class CategoriasService {
         return await this.categoriaRepo.save(newCategoria);
     }
 
-    async findAll() {
+    async findAll(): Promise<Categoria[]> {
         return await this.categoriaRepo.find();
     }
 
+    async findOne(id: number): Promise<Categoria> {
+        return await this.categoriaRepo.findOne({ where: { id } });
+    }
+
+    async update(id: number, updateCategoria): Promise<Categoria> {
+        const categoria = await this.categoriaRepo.findOne({ where: { id } });
+        Object.assign(categoria, updateCategoria);
+        return await this.categoriaRepo.save(categoria);
+    }
+
+    async delete(id: number) {
+        return (await this.categoriaRepo.delete({ id })).affected;
+    }
 
 }

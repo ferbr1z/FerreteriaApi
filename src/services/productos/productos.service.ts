@@ -72,18 +72,11 @@ export class ProductosService {
     async update(
         id: number,
         updateProductoDto: UpdateProductoDto,
-    ): Promise<Producto | HttpException> {
-        try {
-            const producto = await this.productosRepo.findOneBy({ id });
-            Object.assign(producto, updateProductoDto);
-            this.productosRepo.save(producto);
-            return producto;
-        } catch (error) {
-            return new HttpException(
-                { error: error.driverError.detail },
-                HttpStatus.INTERNAL_SERVER_ERROR,
-            );
-        }
+    ): Promise<Producto> {
+        const producto = await this.productosRepo.findOneBy({ id });
+        Object.assign(producto, updateProductoDto);
+        this.productosRepo.save(producto);
+        return producto;
     }
 
     async remove(id: number): Promise<number> {
