@@ -20,7 +20,7 @@ export class Producto {
 
   @ManyToOne((type) => Categoria, categoria => categoria.producto)
   @JoinColumn()
-  categoriaId: Categoria;
+  categoria: Categoria;
 
   @Column({ default: null })
   img_url: string;
