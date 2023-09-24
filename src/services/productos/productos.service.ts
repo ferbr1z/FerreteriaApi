@@ -43,11 +43,6 @@ export class ProductosService {
 
         const thereIsNextPage = parseInt((totalItems/itemsPerPage - skip).toFixed(0)) > 0;
 
-        productos.map((producto) => {
-            producto.img_url = this.toBase64(producto.img_url);
-            return producto;
-        });
-
         const productosServe: ProductoDto = {thereIsNextPage, totalItems, productos};
         
         return productosServe;
@@ -67,8 +62,6 @@ export class ProductosService {
                     HttpStatus.NOT_FOUND,
                 );
 
-            producto.img_url = this.toBase64(producto.img_url);
-
             return producto;
         } catch (error) {
             return new HttpException(
@@ -76,12 +69,6 @@ export class ProductosService {
                 HttpStatus.INTERNAL_SERVER_ERROR,
             );
         }
-    }
-
-    toBase64(imagePath: string): string {
-        const image = fs.readFileSync(imagePath);
-        const imageB64 = image.toString('base64');
-        return imageB64;
     }
 
     async update(

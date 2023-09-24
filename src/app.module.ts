@@ -12,9 +12,16 @@ import { CategoriasModule } from './modules/categorias/categorias.module';
 import { Categoria } from './modules/categorias/entity/categoria.entity';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { host, port, username,password,database } from './config';
+import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
+import { join } from 'path';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/public'
+        }),
+    TypeOrmModule.forRoot({
     type: 'postgres',
     host: host,
     port: port,

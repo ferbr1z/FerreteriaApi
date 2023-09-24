@@ -15,7 +15,7 @@ export class ProductosController {
     @UseInterceptors(
         FileInterceptor('img', {
             storage: diskStorage({
-                destination: './uploads',
+                destination: './public/uploads',
                 filename: (req, file, calback) => {
                     calback(null, Date.now() + file.originalname);
                 },
