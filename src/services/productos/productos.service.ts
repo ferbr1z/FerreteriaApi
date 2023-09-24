@@ -29,7 +29,7 @@ export class ProductosService {
     }
 
     async findAll(page: number = 0): Promise<ProductoDto> {
-        const skip = (page - 1) * itemsPerPage;
+        const skip = page ? ((page - 1) * itemsPerPage) : 0;
 
         const builder = await this.productosRepo.createQueryBuilder('producto')
 

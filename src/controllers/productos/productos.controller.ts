@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, FileTypeValidator, Get, HttpCode, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Post, UploadedFile, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, FileTypeValidator, Get, HttpCode, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Post, Query, UploadedFile, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { ProductosService } from 'src/services/productos/productos.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { CreateProductoDto } from 'src/DTOs/productos/create-producto.dto';
 import { UpdateProductoDto } from 'src/DTOs/productos/update-producto.dto';
+import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('productos')
 export class ProductosController {
@@ -41,8 +42,14 @@ export class ProductosController {
         return { nuevoProducto };
     }
 
-    @Get(':pag')
-    async findAll(@Param('pag') pag?:number) {
+    @Get()
+    @ApiQuery({
+        name:"pag",
+        type:Number,
+        description: "numbero de paginacion",
+        required:false
+    })
+    async findAll(@Query('pag',) pag?:number) {
         return await this.productosService.findAll(pag);
     }
 
