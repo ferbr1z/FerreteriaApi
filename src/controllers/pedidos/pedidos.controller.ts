@@ -16,5 +16,5 @@ export class PedidosController {
     async findAll(){
         return await this.pedidoService.findAll();
     }
-
+    
 }

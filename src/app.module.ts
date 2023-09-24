@@ -10,22 +10,24 @@ import { PedidosDetallesModule } from './modules/pedidos-detalles/pedidos-detall
 import { PedidoDetalle } from './modules/pedidos-detalles/entity/pedido-detalle.entity';
 import { CategoriasModule } from './modules/categorias/categorias.module';
 import { Categoria } from './modules/categorias/entity/categoria.entity';
-
+import { UsuariosModule } from './modules/usuarios/usuarios.module';
+import { host, port, username,password,database } from './config';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
     type: 'postgres',
-    host: 'localhost',
-    port: 5432,
-    username: 'postgres',
-    password: '1234',
-    database: 'ferreteria',
+    host: host,
+    port: port,
+    username: username,
+    password: password,
+    database: database,
     entities: [Producto, Pedido, PedidoDetalle, Categoria],
     synchronize: true,
   }), ProductosModule,
     PedidosModule,
     PedidosDetallesModule,
-    CategoriasModule],
+    CategoriasModule,
+    UsuariosModule],
   controllers: [AppController],
   providers: [AppService],
 })

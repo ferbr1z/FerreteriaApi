@@ -41,9 +41,9 @@ export class ProductosController {
         return { nuevoProducto };
     }
 
-    @Get()
-    async findAll() {
-        return await this.productosService.findAll();
+    @Get(':pag')
+    async findAll(@Param('pag') pag?:number) {
+        return await this.productosService.findAll(pag);
     }
 
     @Get(':id')
