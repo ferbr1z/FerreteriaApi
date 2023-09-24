@@ -9,6 +9,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Producto } from 'src/modules/productos/entity/producto.entity';
 import * as fs from 'fs';
+import { itemsPerPage } from 'src/config';
+import { ProductoDto } from 'src/DTOs/productos/producto.dto';
 
 @Injectable()
 export class ProductosService {
@@ -26,16 +28,29 @@ export class ProductosService {
         return await this.productosRepo.save(newProducto);
     }
 
-    async findAll(): Promise<Producto[]> {
-        const productos = await this.productosRepo.createQueryBuilder('producto')
-            .innerJoinAndSelect('producto.categoria', 'categoria').getMany() // Cargar categoria
+    async findAll(page: number = 0): Promise<ProductoDto> {
+        const skip = (page - 1) * itemsPerPage;
+
+        const builder = await this.productosRepo.createQueryBuilder('producto')
+
+        const productos = await builder
+            .innerJoinAndSelect('producto.categoria', 'categoria')
+            .skip(skip)
+            .take(itemsPerPage)
+            .getMany(); // Cargar categoria
+
+        const totalItems = await builder.getCount();
+
+        const thereIsNextPage = parseInt((totalItems/itemsPerPage - skip).toFixed(0)) > 0;
 
         productos.map((producto) => {
             producto.img_url = this.toBase64(producto.img_url);
             return producto;
         });
 
-        return productos;
+        const productosServe: ProductoDto = {thereIsNextPage, totalItems, productos};
+        
+        return productosServe;
     }
 
     async findOne(id: number): Promise<Producto | HttpException> {
