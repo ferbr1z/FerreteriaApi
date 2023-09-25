@@ -14,6 +14,8 @@ import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { host, port, username,password,database } from './config';
 import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
 import { join } from 'path';
+import { Usuario } from './modules/usuarios/entity/usuario.entity';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -28,13 +30,14 @@ import { join } from 'path';
     username: username,
     password: password,
     database: database,
-    entities: [Producto, Pedido, PedidoDetalle, Categoria],
+    entities: [Producto, Pedido, PedidoDetalle, Categoria, Usuario],
     synchronize: true,
   }), ProductosModule,
     PedidosModule,
     PedidosDetallesModule,
     CategoriasModule,
-    UsuariosModule],
+    UsuariosModule,
+    AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
