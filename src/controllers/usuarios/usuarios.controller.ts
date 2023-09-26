@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post, Query, ValidationPipe } from '@nestjs/common';
 import { CreateUsuarioDto } from 'src/DTOs/usuarios/create-usuario.dto';
 import { ModifyUsuarioDto } from 'src/DTOs/usuarios/modify-usuario.dto';
+import { UsuarioQueryDto } from 'src/DTOs/usuarios/usuario-query.dto';
 import { ServeUsuarioDto } from 'src/DTOs/usuarios/usuario.dto';
 import { UsuariosService } from 'src/services/usuarios/usuarios.service';
 
@@ -16,8 +17,8 @@ export class UsuariosController {
     }
 
     @Get()
-    public findAll(): Promise<ServeUsuarioDto[]> {
-        return this.usuarioService.findAll();
+    public findAll(@Query() query: UsuarioQueryDto): Promise<ServeUsuarioDto[]> {
+        return this.usuarioService.findAll(query);
     }
 
     @Get(':id')

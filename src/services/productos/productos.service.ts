@@ -50,8 +50,6 @@ export class ProductosService {
 
     async findOne(id: number): Promise<Producto | HttpException> {
         try {
-            // const producto = await this.productosRepo.findOne({ where: { id } });
-
             const producto = await this.productosRepo.createQueryBuilder('producto')
                 .innerJoinAndSelect('producto.categoria', 'categoria')
                 .where('producto.id = :id', { id }).getOne();

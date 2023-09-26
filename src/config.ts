@@ -7,3 +7,4 @@ export const itemsPerPage = 10;
 
 export const salt = 10;
 export const passwordHash = "68d>$d+8oY0UuXNYK;!Isb\}<#AYvdWAZ/I6?[#Z9,;n&QnqxQ"
+export const jwtKey = "6IK4lbKFmpBnlrc8pqA7ntU5nO3bgDvb92arjz17it0sX5SaVI"

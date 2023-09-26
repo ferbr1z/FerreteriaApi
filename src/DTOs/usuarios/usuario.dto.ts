@@ -3,7 +3,10 @@ import { Exclude } from "class-transformer";
 import { IsNotEmpty, isNotEmpty } from "class-validator";
 
 export class ServeUsuarioDto {
-
+    @ApiProperty()
+    @IsNotEmpty()
+    id: number;
+    
     @ApiProperty()
     @IsNotEmpty()
     ruc: string;
@@ -11,9 +14,6 @@ export class ServeUsuarioDto {
     @ApiProperty()
     @IsNotEmpty()
     nombre: string;
-
-    @Exclude()
-    password: string;
 
     @ApiProperty()
     @IsNotEmpty()

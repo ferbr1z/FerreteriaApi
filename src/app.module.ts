@@ -11,11 +11,12 @@ import { PedidoDetalle } from './modules/pedidos-detalles/entity/pedido-detalle.
 import { CategoriasModule } from './modules/categorias/categorias.module';
 import { Categoria } from './modules/categorias/entity/categoria.entity';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
-import { host, port, username,password,database } from './config';
+import { host, port, username,password,database, jwtKey } from './config';
 import { ServeStaticModule } from '@nestjs/serve-static/dist/serve-static.module';
 import { join } from 'path';
 import { Usuario } from './modules/usuarios/entity/usuario.entity';
 import { AuthModule } from './modules/auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -23,6 +24,10 @@ import { AuthModule } from './modules/auth/auth.module';
       rootPath: join(__dirname, '..', 'public'),
       serveRoot: '/public'
         }),
+    JwtModule.register({
+      global: true,
+      secret: jwtKey
+    }),
     TypeOrmModule.forRoot({
     type: 'postgres',
     host: host,
