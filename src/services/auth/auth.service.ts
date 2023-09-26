@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { AuthDto } from 'src/DTOs/auth/auth.dto';
-import { ServeUsuarioDto } from 'src/DTOs/usuarios/usuario.dto';
+import { UsuarioDto } from 'src/DTOs/usuarios/usuario.dto';
 
 @Injectable()
 export class AuthService {
@@ -16,8 +16,6 @@ export class AuthService {
     public async logIn(auth: AuthDto) {
         const ruc = auth.ruc;
         const password = auth.password;
-        console.log(ruc);
-        console.log(password);
       
         const user = await this.usuariosService.findOneByRuc(ruc);
 
@@ -33,7 +31,7 @@ export class AuthService {
 
     }
 
-    public async generateJWT(user: ServeUsuarioDto) {
+    public async generateJWT(user: UsuarioDto) {
         const payload = { ruc: user.ruc, sub: user.id };
         return {
             access_token: this.jwtService.sign(payload),

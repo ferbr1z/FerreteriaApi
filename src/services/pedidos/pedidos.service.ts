@@ -49,7 +49,7 @@ export class PedidosService {
 
     }
 
-    async findAll() : Promise<Pedido[]> {
+    async findAll(): Promise<Pedido[]> {
         const pedidos = await this.pedidoRepository.createQueryBuilder('pedido')
             .innerJoinAndSelect('pedido.detalles', 'detalle') // Cargar detalles
             .innerJoinAndSelect('detalle.producto', 'producto') // Opcional: Cargar productos en detalle
@@ -57,4 +57,13 @@ export class PedidosService {
         return pedidos;
 
     }
+
+    async findOne(id: number): Promise<Pedido> {
+        return await this.pedidoRepository.findOne({ where: { id } });
+    }
+
+    async remove(id: number): Promise<void> {
+        await this.pedidoRepository.delete(id);
+    }
+
 }

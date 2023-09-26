@@ -2,11 +2,11 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Exclude } from "class-transformer";
 import { IsNotEmpty, isNotEmpty } from "class-validator";
 
-export class ServeUsuarioDto {
+export class UsuarioDto {
     @ApiProperty()
     @IsNotEmpty()
     id: number;
-    
+
     @ApiProperty()
     @IsNotEmpty()
     ruc: string;
