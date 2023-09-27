@@ -16,18 +16,18 @@ export class AuthService {
     public async logIn(auth: AuthDto) {
         const ruc = auth.ruc;
         const password = auth.password;
-      
+
         const user = await this.usuariosService.findOneByRuc(ruc);
 
-        if(!user) return "Ruc o contraseña incorrecta";
+        if (!user) return "Ruc o contraseña incorrecta";
 
-        const isPasswordOk = await this.usuariosService.comparePassword(password, user.password);
-        if (isPasswordOk) {
-            
+        const isPasswordOk = this.usuariosService.comparePassword(password, user.password);
+
+        if (isPasswordOk)
             return this.generateJWT(user);
-        }
 
-        return "Ruc o contraseña incorrecta";
+
+        return "Contraseña incorrecta";
 
     }
 

@@ -99,8 +99,8 @@ export class UsuariosService {
         return result;
     }
 
-    async comparePassword(originalPassword: string, passwordHashed: string) {
-        return await bcrypt.compare(originalPassword, passwordHashed);
+    comparePassword(originalPassword: string, passwordHashed: string) {
+        return bcrypt.compareSync(originalPassword, passwordHashed);
     }
 
 }
