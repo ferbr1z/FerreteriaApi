@@ -46,34 +46,13 @@ export class UsuariosService {
         const usuarios = await queryBuilder.skip(skip).take(itemsPerPage).getMany();
 
         const totalItems = await queryBuilder.getCount();
-        const thereIsNextPage = parseInt((totalItems / itemsPerPage - skip).toFixed(0)) > 0;
+        const thereIsNextPage = (totalItems / itemsPerPage - skip) >= 1;
 
         const usuariosList: UsuarioDto[] = usuarios.map(usuario => {
             const { password, ...usuarioLimpio } = usuario;
             return usuarioLimpio
         });
-        return { usuariosList, totalItems, thereIsNextPage }
-        // const { pag, nombre, ruc, ...q } = query;
-
-        // const skip = pag ? (pag - 1) * itemsPerPage : 0;
-        // let totalItems;
-
-        // // Se filtran los resultados acorde a las querys
-        // const users = await this.usuarioRepository.find({
-        //     where: {
-        //         nombre: nombre ? ILike(`%${nombre}%`) : ILike('%%'),
-        //         ruc: ruc ? ILike(`%${ruc}%`) : ILike('%%'),
-        //         ...q
-        //     },
-        //     skip: skip,
-        //     take: itemsPerPage
-        // });
-
-        // return users.map(user => {
-        //     const { password, ...userLimpio } = user;
-        //     return userLimpio
-        // });
-
+        return { totalItems, thereIsNextPage, usuariosList }
     }
 
     async findOne(id: number): Promise<UsuarioDto> {

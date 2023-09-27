@@ -41,10 +41,10 @@ export class ProductosService {
 
         const totalItems = await builder.getCount();
 
-        const thereIsNextPage = parseInt((totalItems/itemsPerPage - skip).toFixed(0)) > 0;
-
-        const productosServe: ProductoDto = {thereIsNextPage, totalItems, productos};
+        const thereIsNextPage = (totalItems / itemsPerPage - skip) >= 1;
         
+        const productosServe: ProductoDto = { thereIsNextPage, totalItems, productos };
+
         return productosServe;
     }
 
