@@ -17,11 +17,11 @@ import { UsuarioListDto } from 'src/DTOs/usuarios/usuario-list.dto';
 export class UsuariosService {
     constructor(
         @InjectRepository(Usuario)
-        private readonly usuarioRepository: Repository<Usuario>,
+        private readonly usuarioRepository: Repository<Usuario>
     ) { }
 
     async create(usuario: CreateUsuarioDto): Promise<UsuarioDto> {
-        usuario.password = await bcrypt.hash(passwordHash, salt);
+        usuario.password = await bcrypt.hash(usuario.password, salt);
         const newUser = await this.usuarioRepository.save(usuario);
         delete newUser.password;
         return newUser;
@@ -100,7 +100,9 @@ export class UsuariosService {
     }
 
     comparePassword(originalPassword: string, passwordHashed: string) {
-        return bcrypt.compareSync(originalPassword, passwordHashed);
+        const result = bcrypt.compareSync(originalPassword, passwordHashed);
+        console.log(result);
+        return result;
     }
 
 }
