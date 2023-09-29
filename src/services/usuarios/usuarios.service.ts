@@ -43,15 +43,11 @@ export class UsuariosService {
             console.log(key);
         })
 
-        const usuarios = await queryBuilder.skip(skip).take(itemsPerPage).getMany();
-
+        const usuariosList : UsuarioDto[] = await queryBuilder.skip(skip).take(itemsPerPage).getMany();
         const totalItems = await queryBuilder.getCount();
         const thereIsNextPage = (totalItems / itemsPerPage - skip) >= 1;
 
-        const usuariosList: UsuarioDto[] = usuarios.map(usuario => {
-            const { password, ...usuarioLimpio } = usuario;
-            return usuarioLimpio
-        });
+
         return { totalItems, thereIsNextPage, usuariosList }
     }
 

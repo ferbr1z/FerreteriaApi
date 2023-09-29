@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn, Unique } from 'typeorm';
 
 @Entity()
@@ -13,6 +14,7 @@ export class Usuario {
     @Column()
     nombre: string;
 
+    @Exclude()
     @Column()
     password: string;
 
