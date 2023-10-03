@@ -10,6 +10,7 @@ import { UsuariosService } from 'src/services/usuarios/usuarios.service';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { ROLES } from 'src/constants/roles';
+import { ApiOperation } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard, RolesGuard)
 @Controller('usuarios')
@@ -17,6 +18,7 @@ export class UsuariosController {
 
     constructor(private readonly usuarioService : UsuariosService){}
 
+    @ApiOperation({ summary: 'Rol requerido: ADMIN' })
     @Roles('ADMIN')
     @Post()
     @HttpCode(200)
@@ -24,24 +26,26 @@ export class UsuariosController {
         return this.usuarioService.create(newUser);
     }
 
+    @ApiOperation({ summary: 'Rol requerido: VENDEDOR' })
     @Roles(ROLES.VENDEDOR)
     @Get()
     public findAll(@Query() query: UsuarioQueryDto): Promise<UsuarioListDto> {
         return this.usuarioService.findAll(query);
     }
 
-    @PublicAccess()
     @Get(':id')
     public async findOne(@Param('id') id: number) : Promise<UsuarioDto> {
         return await this.usuarioService.findOne(id);
     }
 
+    @ApiOperation({ summary: 'Rol requerido: ADMIN' })
     @Roles('ADMIN')
     @Patch(':id')
     update(@Param('id') id:number, @Body() updateUserDto : ModifyUsuarioDto){
         return this.usuarioService.update(id, updateUserDto);
     }
-    
+
+    @ApiOperation({ summary: 'Rol requerido: ADMIN' })
     @Roles('ADMIN')
     @Delete(':id')
     remove(@Param('id') id:number){

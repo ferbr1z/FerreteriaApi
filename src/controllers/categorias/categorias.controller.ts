@@ -1,4 +1,5 @@
 import { Body, Controller, Get, HttpCode, NotFoundException, Param, Patch, Post, Delete, ValidationPipe, UseGuards } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
 import { CreateCategoria } from 'src/DTOs/categorias/create-categoria.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
@@ -11,6 +12,7 @@ export class CategoriasController {
 
     constructor(private readonly categoriaService: CategoriasService) { }
 
+    @ApiOperation({ summary: 'Rol requerido: ADMIN' })
     @Roles('ADMIN')
     @Post()
     @HttpCode(200)
@@ -32,12 +34,14 @@ export class CategoriasController {
         return this.categoriaService.findOne(+id);
     }
 
+    @ApiOperation({ summary: 'Rol requerido: ADMIN' })
     @Roles('ADMIN')
     @Patch(":id")
     update(@Param("id") id: string, @Body() updateCategoria: CreateCategoria) {
         return this.categoriaService.update(+id, updateCategoria);
     }
 
+    @ApiOperation({ summary: 'Rol requerido: ADMIN' })
     @Roles('ADMIN')
     @Delete(":id")
     delete(@Param("id") id: string) {

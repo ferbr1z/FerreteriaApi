@@ -4,7 +4,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { CreateProductoDto } from 'src/DTOs/productos/create-producto.dto';
 import { UpdateProductoDto } from 'src/DTOs/productos/update-producto.dto';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 
@@ -15,6 +15,7 @@ export class ProductosController {
 
     constructor(private readonly productosService: ProductosService) { }
 
+    @ApiOperation({ summary: 'Rol requerido: ADMIN' })
     @Roles('ADMIN')
     @Post()
     @HttpCode(201)
@@ -47,6 +48,7 @@ export class ProductosController {
         return { nuevoProducto };
     }
 
+    @ApiOperation({ summary: 'Rol requerido: VENDEDOR' })
     @Roles('VENDEDOR')
     @Get()
     @ApiQuery({
@@ -64,6 +66,7 @@ export class ProductosController {
         return this.productosService.findOne(+id);
     }
 
+    @ApiOperation({ summary: 'Rol requerido: ADMIN' })
     @Roles('ADMIN')
     @Patch(':id')
     update(
@@ -73,6 +76,7 @@ export class ProductosController {
         return this.productosService.update(+id, updateProductoDto);
     }
 
+    @ApiOperation({ summary: 'Rol requerido: ADMIN' })
     @Roles('ADMIN')
     @Delete(':id')
     remove(@Param('id') id: string) {
