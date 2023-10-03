@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { ROLES } from 'src/constants/roles';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn, Unique } from 'typeorm';
 
 @Entity()
@@ -9,7 +10,7 @@ export class Usuario {
 
     @Unique(['ruc'])
     @Column()
-    ruc : string;
+    ruc: string;
 
     @Column()
     nombre: string;
@@ -18,11 +19,13 @@ export class Usuario {
     @Column()
     password: string;
 
-
     @Column()
     telefono: string;
 
     @Column()
     direccion: string;
+
+    @Column({ type: 'enum', enum: ROLES, default: ROLES.CLIENTE })
+    rol: ROLES;
 
 }
