@@ -48,8 +48,6 @@ export class ProductosController {
         return { nuevoProducto };
     }
 
-    @ApiOperation({ summary: 'Rol requerido: VENDEDOR' })
-    @Roles('VENDEDOR')
     @Get()
     @ApiQuery({
         name: "pag",
