@@ -55,7 +55,6 @@ export class PedidosService {
             .innerJoinAndSelect('detalle.producto', 'producto') // Opcional: Cargar productos en detalle
             .getMany();
         return pedidos;
-
     }
 
     async findOne(id: number): Promise<Pedido> {

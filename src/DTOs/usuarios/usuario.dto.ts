@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Exclude } from "class-transformer";
-import { IsNotEmpty, isNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
+import { ROLES } from "src/constants/roles";
 
 export class UsuarioDto {
     @ApiProperty()
@@ -22,5 +22,9 @@ export class UsuarioDto {
     @ApiProperty()
     @IsNotEmpty()
     direccion: string;
+
+    @ApiProperty()
+    @IsOptional()
+    rol: ROLES;
 
 }

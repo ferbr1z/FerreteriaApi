@@ -1,16 +1,21 @@
-import { Body, Controller, Delete, FileTypeValidator, Get, HttpCode, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Post, Query, UploadedFile, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, FileTypeValidator, Get, HttpCode, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { ProductosService } from 'src/services/productos/productos.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { CreateProductoDto } from 'src/DTOs/productos/create-producto.dto';
 import { UpdateProductoDto } from 'src/DTOs/productos/update-producto.dto';
 import { ApiQuery } from '@nestjs/swagger';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
+
+@UseGuards(RolesGuard)
 @Controller('productos')
 export class ProductosController {
 
     constructor(private readonly productosService: ProductosService) { }
 
+    @Roles('ADMIN')
     @Post()
     @HttpCode(201)
     @UseInterceptors(
@@ -42,14 +47,15 @@ export class ProductosController {
         return { nuevoProducto };
     }
 
+    @Roles('VENDEDOR')
     @Get()
     @ApiQuery({
-        name:"pag",
-        type:Number,
+        name: "pag",
+        type: Number,
         description: "numbero de paginacion",
-        required:false
+        required: false
     })
-    async findAll(@Query('pag',) pag?:number) {
+    async findAll(@Query('pag',) pag?: number) {
         return await this.productosService.findAll(pag);
     }
 
@@ -58,6 +64,7 @@ export class ProductosController {
         return this.productosService.findOne(+id);
     }
 
+    @Roles('ADMIN')
     @Patch(':id')
     update(
         @Param('id') id: string,
@@ -66,6 +73,7 @@ export class ProductosController {
         return this.productosService.update(+id, updateProductoDto);
     }
 
+    @Roles('ADMIN')
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.productosService.remove(+id);

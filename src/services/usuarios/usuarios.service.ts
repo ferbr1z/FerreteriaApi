@@ -76,7 +76,6 @@ export class UsuariosService {
 
     comparePassword(originalPassword: string, passwordHashed: string) {
         const result = bcrypt.compareSync(originalPassword, passwordHashed);
-        console.log(result);
         return result;
     }
 
