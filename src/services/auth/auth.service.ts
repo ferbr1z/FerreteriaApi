@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsuariosService } from '../usuarios/usuarios.service';
 import { AuthDto } from 'src/DTOs/auth/auth.dto';
@@ -20,7 +20,8 @@ export class AuthService {
 
         const user = await this.usuariosService.findOneByRuc(ruc);
 
-        if (!user) return "Ruc o contraseña incorrecta";
+        if (!user) throw new BadRequestException('El ruc no existe')
+
 
         const isPasswordOk = this.usuariosService.comparePassword(password, user.password);
         const token = await this.generateJWT(user);
@@ -33,7 +34,7 @@ export class AuthService {
                 access_token: token.access_token
             };
 
-        return "Contraseña incorrecta";
+        throw new BadRequestException('Contraseña incorrecta')
 
     }
 
