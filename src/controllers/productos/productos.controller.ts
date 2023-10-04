@@ -7,6 +7,7 @@ import { UpdateProductoDto } from 'src/DTOs/productos/update-producto.dto';
 import { ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { ProductoQueryDto } from 'src/DTOs/productos/producto-query.dto';
 
 
 @UseGuards(RolesGuard)
@@ -49,14 +50,8 @@ export class ProductosController {
     }
 
     @Get()
-    @ApiQuery({
-        name: "pag",
-        type: Number,
-        description: "numbero de paginacion",
-        required: false
-    })
-    async findAll(@Query('pag',) pag?: number) {
-        return await this.productosService.findAll(pag);
+    async findAll(@Query() query: ProductoQueryDto) {
+        return await this.productosService.findAll(query);
     }
 
     @Get(':id')

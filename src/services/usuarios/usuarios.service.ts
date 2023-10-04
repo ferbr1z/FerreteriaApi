@@ -1,16 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOperator, ILike, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Usuario } from 'src/modules/usuarios/entity/usuario.entity';
 import { CreateUsuarioDto } from 'src/DTOs/usuarios/create-usuario.dto';
 import { UsuarioDto } from 'src/DTOs/usuarios/usuario.dto';
 import { ModifyUsuarioDto } from 'src/DTOs/usuarios/modify-usuario.dto';
-import { AuthService } from '../auth/auth.service';
 import * as bcrypt from 'bcrypt';
-import { itemsPerPage, passwordHash, salt } from 'src/config';
+import { itemsPerPage, salt } from 'src/config';
 import { UsuarioQueryDto } from 'src/DTOs/usuarios/usuario-query.dto';
-import { classToPlain } from 'class-transformer';
-import { count } from 'console';
 import { UsuarioListDto } from 'src/DTOs/usuarios/usuario-list.dto';
 
 @Injectable()
@@ -43,7 +40,7 @@ export class UsuariosService {
             console.log(key);
         })
 
-        const usuariosList : UsuarioDto[] = await queryBuilder.skip(skip).take(itemsPerPage).getMany();
+        const usuariosList: UsuarioDto[] = await queryBuilder.skip(skip).take(itemsPerPage).getMany();
         const totalItems = await queryBuilder.getCount();
         const thereIsNextPage = (totalItems / itemsPerPage - skip) >= 1;
 
