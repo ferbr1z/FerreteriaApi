@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
 import { ROLES } from 'src/constants/roles';
+import { Pedido } from 'src/modules/pedidos/entity/pedido.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn, Unique } from 'typeorm';
 
 @Entity()
@@ -27,5 +28,4 @@ export class Usuario {
 
     @Column({ type: 'enum', enum: ROLES, default: ROLES.CLIENTE })
     rol: ROLES;
-
 }

@@ -37,7 +37,6 @@ export class UsuariosService {
 
         Object.keys(q).forEach(key => {
             queryBuilder.andWhere(`usuario.${key} LIKE :${key}`, { [key]: q[key] })
-            console.log(key);
         })
 
         const usuariosList: UsuarioDto[] = await queryBuilder.skip(skip).take(itemsPerPage).getMany();

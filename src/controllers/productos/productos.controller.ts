@@ -8,9 +8,10 @@ import { ApiOperation, ApiQuery } from '@nestjs/swagger';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { ProductoQueryDto } from 'src/DTOs/productos/producto-query.dto';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 
-@UseGuards(RolesGuard)
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('productos')
 export class ProductosController {
 
@@ -49,11 +50,13 @@ export class ProductosController {
         return { nuevoProducto };
     }
 
+    @Roles('CLIENTE', 'VENDEDOR')
     @Get()
     async findAll(@Query() query: ProductoQueryDto) {
         return await this.productosService.findAll(query);
     }
 
+    @Roles('CLIENTE', 'VENDEDOR')
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.productosService.findOne(+id);

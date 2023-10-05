@@ -9,7 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Producto } from 'src/modules/productos/entity/producto.entity';
 import { itemsPerPage } from 'src/config';
-import { ProductoDto } from 'src/DTOs/productos/producto.dto';
+import { ProductoListDto } from 'src/DTOs/productos/productoList.dto';
 import { ProductoQueryDto } from 'src/DTOs/productos/producto-query.dto';
 
 @Injectable()
@@ -28,7 +28,7 @@ export class ProductosService {
         return await this.productosRepo.save(newProducto);
     }
 
-    async findAll(query: ProductoQueryDto): Promise<ProductoDto> {
+    async findAll(query: ProductoQueryDto): Promise<ProductoListDto> {
         const { pag, categoria, ...q } = query;
 
         const skip = pag ? ((pag - 1) * itemsPerPage) : 0;
@@ -49,9 +49,9 @@ export class ProductosService {
 
         const thereIsNextPage = (totalItems / itemsPerPage - skip) >= 1;
 
-        const productosServe: ProductoDto = { thereIsNextPage, totalItems, productos };
+        const productosList: ProductoListDto = { thereIsNextPage, totalItems, productos };
 
-        return productosServe;
+        return productosList;
     }
 
     async findOne(id: number): Promise<Producto | HttpException> {
