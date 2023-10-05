@@ -40,7 +40,7 @@ export class ProductosService {
         }
 
         Object.keys(q).forEach(key => {
-            queryBuilder.andWhere(`producto.${key} LIKE :${key}`, { [key]: q[key] });
+            queryBuilder.andWhere(`producto.${key} ILIKE :${key}`, { [key]: `%${q[key]}%` });
         });
 
         const productos = await queryBuilder.skip(skip).take(itemsPerPage).getMany();
