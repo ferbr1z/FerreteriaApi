@@ -29,11 +29,15 @@ export class ProductosService {
     }
 
     async findAll(query: ProductoQueryDto): Promise<ProductoDto> {
-        const { pag, ...q } = query;
+        const { pag, categoria, ...q } = query;
 
         const skip = pag ? ((pag - 1) * itemsPerPage) : 0;
 
         const queryBuilder = await this.productosRepo.createQueryBuilder('producto').innerJoinAndSelect('producto.categoria', 'categoria');
+
+        if (categoria) {
+            queryBuilder.andWhere('categoria.id = :categoria', { categoria });
+        }
 
         Object.keys(q).forEach(key => {
             queryBuilder.andWhere(`producto.${key} LIKE :${key}`, { [key]: q[key] });
