@@ -45,12 +45,6 @@ export class ProductosService {
 
         const productos = await queryBuilder.skip(skip).take(itemsPerPage).getMany();
 
-        // const productos = await builder
-        //     .innerJoinAndSelect('producto.categoria', 'categoria')
-        //     .skip(skip)
-        //     .take(itemsPerPage)
-        //     .getMany(); // Cargar categoria
-
         const totalItems = await queryBuilder.getCount();
 
         const thereIsNextPage = (totalItems / itemsPerPage - skip) >= 1;
