@@ -2,11 +2,12 @@ import { Body, Controller, Get, HttpCode, NotFoundException, Param, Patch, Post,
 import { ApiOperation } from '@nestjs/swagger';
 import { CreateCategoria } from 'src/DTOs/categorias/create-categoria.dto';
 import { Roles } from 'src/auth/decorators/roles.decorator';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Categoria } from 'src/modules/categorias/entity/categoria.entity';
 import { CategoriasService } from 'src/services/categorias/categorias.service';
 
-@UseGuards(RolesGuard)
+@UseGuards(AuthGuard, RolesGuard)
 @Controller('categorias')
 export class CategoriasController {
 
