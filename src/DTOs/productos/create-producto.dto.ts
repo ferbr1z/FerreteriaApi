@@ -15,5 +15,4 @@ export class CreateProductoDto {
   @ApiProperty()
   @IsNotEmpty()
   categoria: CategoriaProductoDto;
-
 }

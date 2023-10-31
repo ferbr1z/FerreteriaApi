@@ -8,8 +8,8 @@ async function bootstrap() {
 
   const reflector = app.get(Reflector);
 
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector))
-  
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
+
   const config = new DocumentBuilder()
     .setTitle('Ferreteria API')
     .setDescription('Ferreteria API description')

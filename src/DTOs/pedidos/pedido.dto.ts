@@ -1,16 +1,15 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty } from 'class-validator';
 
 export class PedidoDto {
+  @IsNotEmpty()
+  detalles: any[];
 
-    @IsNotEmpty()
-    detalles: any[];
+  @IsNotEmpty()
+  autor: number;
 
-    @IsNotEmpty()
-    autor: number;
+  @IsNotEmpty()
+  fechaCreacion: Date;
 
-    @IsNotEmpty()
-    fechaCreacion: Date;
-
-    @IsNotEmpty()
-    estado: string;
+  @IsNotEmpty()
+  estado: string;
 }
